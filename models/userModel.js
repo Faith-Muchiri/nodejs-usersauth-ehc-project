@@ -14,14 +14,20 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: [true, "Please add the email"],
-        unique: [true, "Email address already taken"]
+        unique: [true, "Email address already taken"],
+        lowercase: true
     },
     password: {
         type: String,
         required: [true, "Please add the user password"],
-    }
+    },
+    otp: {
+        type: String,
+        default: null,
+    },
 }, {
     timestamps: true,
 });
+
 
 module.exports = mongoose.model("User", userSchema);

@@ -11,6 +11,7 @@ const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use("/api/users", require("./routes/userRoutes"));
+app.use('/api/password',require('./routes/forgotPasswordRoutes'));
 app.use(errorHandler);
 
 // starting a server

@@ -60,13 +60,46 @@ const loginUser = asyncHandler(async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
-    console.log(accessToken)
+    // generate new OTP and store in database
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    await user.save();
+    console.log(`Generated OTP ${otp}`);
+    // send OTP to user's email (implementation not shown)
     res.status(200).json({ accessToken });
   } else {
     res.status(401);
     throw new Error("email or password is not valid");
   }
 });
+
+// const loginUser = asyncHandler(async (req, res) => {
+//   const { email, password } = req.body;
+//   if (!email || !password) {
+//     res.status(400);
+//     throw new Error("All fields are mandatory!");
+//   }
+//   const user = await User.findOne({ email });
+//   //compare password with hashedpassword
+//   if (user && (await bcrypt.compare(password, user.password))) {
+//     const accessToken = jwt.sign(
+//       {
+//         user: {
+//           username: user.username,
+//           email: user.email,
+//           id: user.id,
+//         },
+//       },
+//       process.env.ACCESS_TOKEN_SECRET,
+//       { expiresIn: "15m" }
+//     );
+//     console.log(accessToken)
+//     res.status(200).json({ accessToken });
+//   } else {
+//     res.status(401);
+//     throw new Error("email or password is not valid");
+//   }
+// });
 
 //@desc Current user info
 //@route POST /api/users/current
