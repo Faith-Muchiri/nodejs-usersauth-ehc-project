@@ -21,6 +21,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, "Please add the user password"],
     },
+    googleId: {
+        type: String,
+        unique: true,
+    },
     otp: {
         type: String,
         default: null,
